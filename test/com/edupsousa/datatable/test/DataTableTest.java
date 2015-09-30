@@ -129,6 +129,7 @@ public class DataTableTest {
 	
 	@Test
 	public void filterRowsEqual() {
+		
 		DataTableRow row;
 		dt.addCollumn("id", DataTable.TYPE_INT);
 		dt.addCollumn("class", DataTable.TYPE_STRING);
@@ -180,6 +181,30 @@ public class DataTableTest {
 			assertEquals("Only Integer columns can be sorted.", e.getMessage());
 			return;
 		}
+		
 		fail();
 	}
+	
+	@Test
+	public void  sortRowsDescending(){
+		DataTableRow row;
+		dt.addCollumn("id", DataTable.TYPE_INT);
+		dt.addCollumn("number", DataTable.TYPE_INT);
+		
+		for (int i = 0; i < 5; i++) {
+			row = dt.createRow();
+			row.setValue("id", i);
+			row.setValue("number", i);
+			dt.insertRow(row);
+		}
+		
+		DataTable sortedTable = dt.sortDescending("number");
+		for (int i = 0; i < 5; i++) {
+			row = sortedTable.getRow(i);
+			assertEquals(4-i, row.getValue("id"));
+			assertEquals(4-i, row.getValue("number"));						
+		}	
+	}
+	
+	
 }
